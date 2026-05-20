@@ -1,0 +1,4 @@
+Id,Task,Status,Date
+2,lkjaljdladjsajdddd,In-progress,2026-04-04 14:15:23.447327
+5,"Implement a full authentication system with JWT tokens, refresh token rotation, secure httpOnly cookies, and role-based access control for admin and regular users",In-progress,2026-04-04 14:16:49.144487
+6,"Implement a full authentication system with JWT tokens, refresh token rotation, secure httpOnly cookies, and role-based access control for admin and regular users",Done,2026-04-04 19:52:17.250201

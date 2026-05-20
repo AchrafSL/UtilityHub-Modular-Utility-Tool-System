@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="container pt-5 pb-2">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+
+                <div
+                    class="card-header bg-dark text-white border-bottom border-secondary d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Todo</h5>
+                </div>
+
+                {% if error %}
+                <div class="alert alert-danger" id="ERROR" role="alert">
+                    {{ error }}
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const alert = new bootstrap.Alert(document.getElementById('ERROR'));
+                        alert.close();
+                    }, 3000);
+                </script>
+                {% endif %}
+
+                <div class="card-body p-4">
+
+                    <!-- Search + Filters -->
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                        <form action="/Todo" method="POST" id="searchForm">
+                            <input type="text" class="form-control w-auto" placeholder="Search title or content…"
+                                name="q" value="{{ keyword if keyword else ''}}" id="searchInput" />
+                        </form>
+
+                        <a href="/Todo?tag=All"
+                            class="btn btn-sm rounded-pill {% if tag == 'All' %}btn-primary{% else %}btn-outline-secondary{% endif %}">All</a>
+                        <a href="/Todo?tag=Pending"
+                            class="btn btn-sm rounded-pill {% if tag == 'Pending' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Pending</a>
+                        <a href="/Todo?tag=In-progress"
+                            class="btn btn-sm rounded-pill {% if tag == 'In-progress' %}btn-primary{% else %}btn-outline-secondary{% endif %}">In
+                            Progress</a>
+                        <a href="/Todo?tag=Done"
+                            class="btn btn-sm rounded-pill {% if tag == 'Done' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Done</a>
+                        <span class="ms-auto text-secondary small">{{ task_count }} tasks</span>
+                    </div>
+
+                    <form action="/Todo/new" method="POST" id="newTodo">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Describe the task"
+                                aria-label="task_desc" name="task_desc" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                onclick="document.getElementById('newTodo').submit()">Add Task</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Active -->
+<div class="container py-2">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+
+                <div
+                    class="card-header bg-dark text-white border-bottom border-secondary d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Active</h5>
+                    <span class="badge bg-primary ms-2">{{ active_count }}</span></h5>
+
+                </div>
+
+                <div class="card-body p-0">
+                    {% for item in dataActive %}
+                    <form method="POST"
+                        class="d-flex align-items-center gap-3 px-4 py-3 border-bottom border-secondary">
+
+                        <input class="form-check-input flex-shrink-0 mt-0" type="checkbox" name="is_done"
+                            onchange="this.form.action='/Todo/toggle/{{ item.Id }}'; this.form.submit();" {% if
+                            item.Status=='Done' %}checked{% endif %}>
+
+                        <span class="flex-grow-1 text-white">{{ item.Task }}</span>
+
+                        <select name="Status"
+                            class="form-select form-select-sm w-auto bg-dark text-white border-secondary"
+                            onchange="this.form.action='/Todo/update/{{ item.Id }}'; this.form.submit();">
+
+                            <option value="Pending" {% if item.Status=='Pending' %}selected{% endif %}>Pending</option>
+                            <option value="In-progress" {% if item.Status=='In-progress' %}selected{% endif %}>
+                                In-progress</option>
+                            <option value="Done" {% if item.Status=='Done' %}selected{% endif %}>Done</option>
+                        </select>
+
+                        <span class="text-secondary small flex-shrink-0">{{ item.Date }}</span>
+
+                    </form>
+
+                    {% else %}
+
+                    <div class="d-flex align-items-center justify-content-center gap-2 px-4 py-4 text-secondary">
+                        <span class="small">No active tasks, add one above!</span>
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Done -->
+<div class="container py-2 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+
+                <div
+                    class="card-header bg-dark text-white border-bottom border-secondary d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Done</h5>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success">{{ done_count }}</span>
+                        <form action="/Todo/Clear" method="POST">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Clear All</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    {% for item in dataDone %}
+                    <form method="POST"
+                        class="d-flex align-items-center gap-3 px-4 py-3 border-bottom border-secondary">
+
+                        <input class="form-check-input flex-shrink-0 mt-0" type="checkbox" name="is_done"
+                            onchange="this.form.action='/Todo/toggle/{{ item.Id }}'; this.form.submit();" {% if
+                            item.Status=='Done' %}checked{% endif %}>
+
+                        <span class="flex-grow-1 text-decoration-line-through text-secondary">{{ item.Task }}</span>
+
+                        <select name="Status"
+                            class="form-select form-select-sm w-auto bg-dark text-white border-secondary"
+                            onchange="this.form.action='/Todo/update/{{ item.Id }}'; this.form.submit();">
+
+                            <option value="Pending" {% if item.Status=='Pending' %}selected{% endif %}>Pending</option>
+                            <option value="In-progress" {% if item.Status=='In-progress' %}selected{% endif %}>
+                                In-progress</option>
+                            <option value="Done" {% if item.Status=='Done' %}selected{% endif %}>Done</option>
+                        </select>
+
+                        <span class="text-secondary small flex-shrink-0">{{ item.Date }}</span>
+
+                    </form>
+
+
+
+                    {% else %}
+                    <div class="d-flex align-items-center justify-content-center gap-2 px-4 py-4 text-secondary">
+                        <span class="small">Nothing finished yet, get to work!</span>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

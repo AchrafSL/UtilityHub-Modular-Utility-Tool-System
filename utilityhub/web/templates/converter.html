@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white border-bottom border-secondary">
+                    <h5 class="mb-0">File Converter</h5>
+                </div>
+
+                {% if error %}
+                <div class="alert alert-danger" id="ERROR" role="alert">
+                    {{ error }}
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const alert = new bootstrap.Alert(document.getElementById('ERROR'));
+                        alert.close();
+                    }, 3000);
+                </script>
+                {% endif %}
+
+                <div class="card-body p-4">
+                    <form action="{{ url_for('converter.ConvertUpload') }}" method="POST" enctype="multipart/form-data">
+
+                        <div class="p-5 text-center border-dashed mb-4 bg-dark-subtle"
+                            onclick="document.getElementById('fileInp').click()">
+
+
+                            <div class="mb-3">
+                                <p class="fs-1 text-secondary">⊕</p>
+                            </div>
+
+                            <p class="mb-3 text-secondary">Drag & drop or click to select<br>
+                                <small class="text-muted">.md .txt .png .jpg .jpeg .webp .bmp .tiff</small>
+                            </p>
+
+                            <button type="button" class="btn btn-primary px-4" disabled>
+                                Browse files
+                            </button>
+
+                            <!-- hidden  -->
+                            <input type="file" name="fileInp" id="fileInp" class="d-none"
+                                accept=".md, .txt, .png, .jpg, .jpeg, .webp, .bmp, .tiff, .mp4"
+                                onchange="this.form.submit()">
+
+                        </div>
+                    </form>
+
+
+                    <form action="{{ url_for('converter.ConvertProcess') }}" method="POST">
+                        <div class=" mb-3">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Output Format</label>
+                            <div>
+                                <select class="form-select text-secondary bg-dark-subtle" name="format" id="fmtSelect"
+                                    {% if not formats %} disabled {% endif %}>
+                                    <option selected disabled value="">Select a file first</option>
+                                    {% for format in formats %}
+                                    <option {% if loop.first %} selected {% endif %}>{{ format }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="filename" value="{{ filename }}">
+                        <button type="submit" class="btn btn-primary w-100" {% if not formats %} disabled {% endif
+                            %}>Convert</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

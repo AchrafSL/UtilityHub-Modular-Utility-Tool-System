@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='dependencies/bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+
+<div class="index_wrapper">
+
+    <!-- <script src="C:\Users\achra\OneDrive\Desktop\UIT_master\Uit Master projects\python s1\UtilityHub – Application Modulaire d’Outils Utilitaires (Desktop + Web)\utilityhub\web\dependencies\bootstrap-5.3.8-dist\js\bootstrap.bundle.min.js"/> -->
+    <script src="{{ url_for('static', filename='dependencies/bootstrap-5.3.8-dist/js/bootstrap.min.js') }}"> </script>
+
+    <!-- the fixed part (nav bar ) -->
+    <div class="sidebar">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('converter.Converter') }}">
+                    <img src="{{ url_for('serve_assets', filename='white_spider_icon.png') }}" alt="Logo" width="30"
+                        height="24" class="d-inline-block align-text-top">
+                    UtilityHub
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page =='Converter' %} active {% endif %}"
+                                aria-current="page" href="{{ url_for('converter.Converter')}}">Converter</a>
+                            <!-- url_for('function in app.py so change in routes dont break the app') -->
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'Downloader' %} active {% endif %}"
+                                href="{{ url_for('downloader.Downloader') }}">Downloader</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'Notes' %}active {% endif %}"
+                                href="{{ url_for('notes.Notes') }}">Notes</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link  {% if current_page == 'Todo' %}active {% endif %} "
+                                href="{{ url_for('todo.Todo') }}">Todo</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link  {% if current_page == 'History' %}active {% endif %}"
+                                href="{{ url_for('History') }}">History</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main">
+        <!-- content -->
+        {% block body %}
+        {% endblock %}
+    </div>
+
+</div>
+
+
+
+</html>

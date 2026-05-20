@@ -1,0 +1,10 @@
+{
+  "output_paths": {
+    "converter": "C:/Users/achra/OneDrive/Desktop/test",
+    "downloader": "C:/Users/achra/OneDrive/Desktop/test",
+    "uploads": "utilityhub/data/uploads/"
+  },
+  "preferences": {
+    "downloader_browser": "firefox"
+  }
+}

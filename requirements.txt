@@ -1,0 +1,10 @@
+PyQt5
+Flask
+pandas
+numpy
+filelock
+yt-dlp
+Pillow
+markdown
+xhtml2pdf
+vtracer

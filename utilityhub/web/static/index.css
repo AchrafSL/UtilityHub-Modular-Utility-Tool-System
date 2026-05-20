@@ -1,0 +1,33 @@
+.border-dashed {
+    border: 2px dashed #444 !important;
+    background-color: #1E1E1C !important;
+    border-radius: 12px;
+}
+
+.border-dashed:hover {
+    border-color: #85B7EB !important;
+    background-color: #042C53 !important;
+    cursor: pointer;
+}
+
+.card-body {
+    background-color: #1E1E1C;
+}
+
+.btn-primary:disabled {
+    background-color: #85B7EB !important;
+    border-color: #85B7EB;
+}
+
+
+
+
+.note-item {
+    background-color: #1E1E1C !important;
+    border: 1px solid #3a3a36 !important;
+}
+
+.note-item:hover {
+    background-color: #212529 !important;
+    border-color: #4a4a46 !important;
+}
